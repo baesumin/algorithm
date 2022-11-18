@@ -6,29 +6,18 @@
 // let check = new Array(n + 1).fill(false);
 // let result = '';
 
-function solution(ingredient) {
-  let answer = 0;
-  let hamburger = '1231';
-  let arr = [...ingredient];
-  let curHamburger = '';
+let answer = [];
 
-  while (true) {
-    let isEnd = true;
-    console.log(arr);
-    for (let i = 0; i < arr.length; i++) {
-      if (hamburger.startsWith(curHamburger + arr[i])) {
-        isEnd = false;
-        curHamburger += arr[i];
-        arr = [...arr.slice(0, i), ...arr.slice(i + 1, arr.length)];
-        if (hamburger === curHamburger) {
-          answer++;
-          curHamburger = '';
-        }
-        break;
-      }
+const dfs = (nums, num, arr = []) => {
+  //3개를 선택한다는가정에 3개가 선택 됐다면 출력
+  if (num === 3) answer.push([...arr]);
+  else {
+    for (let i = 0; i < nums.length; i++) {
+      arr.push(nums[i]);
+      dfs(nums.slice(i + 1), num + 1, arr);
+      arr.pop();
     }
-    if (isEnd) break;
   }
-
-  return answer;
-}
+};
+dfs([1, 2, 3, 4], 0);
+console.log(answer); //[ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 2, 3, 4 ] ]
